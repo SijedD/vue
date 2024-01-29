@@ -2,9 +2,12 @@ let app = new Vue({
     el: '#app',
     data: {
         product: "Socks",
+        brand: 'Vue Mastery',
         image: "./assets/vmSocks-green-onWhite.jpg",
         altText: "A pair of socks",
         inStock: false,
+        onSale : "ON SALE !!!!",
+        sale: true,
         details: ['80% cotton', '20% polyester', 'Gender-neutral'],
         variants: [
             {
@@ -27,8 +30,14 @@ let app = new Vue({
         updateProduct(variantImage) {
             this.image = variantImage
         }
+    },
+    computed: {
+        title() {
+            return this.brand + ' ' + this.product;
+        },
+        saleTitle(){
+            return this.brand + ' ' + this.product + ' ' + this.onSale;
+        }
     }
+
 })
-
-
-
