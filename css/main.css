@@ -60,6 +60,10 @@ button {
     background-color: #d8d8d8;
 }
 
+.line {
+    text-decoration: line-through;
+}
+
 .review-form {
     width: 400px;
     padding: 20px;
