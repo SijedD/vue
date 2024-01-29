@@ -3,10 +3,6 @@ Vue.component('product', {
         premium: {
             type: Boolean,
             required: true
-        },
-        productDetails: {
-            type: Boolean,
-            required: true
         }
     },
     template: `
@@ -19,9 +15,9 @@ Vue.component('product', {
            <h1>{{ title }}</h1>
            <p v-if="inStock">In stock</p>
            <p v-else>Out of Stock</p>
-           <p>{{ detail }}</p>
-           
-
+           <ul>
+               <li v-for="detail in details">{{ detail }}</li>
+           </ul>
           <p>Shipping: {{ shipping }}</p>
            <div
                    class="color-box"
@@ -31,17 +27,20 @@ Vue.component('product', {
                    @mouseover="updateProduct(index)"
            ></div>
           
-
-           <div class="cart">
-               <p>Cart({{ cart }})</p>
-           </div>
-
            <button
                    v-on:click="addToCart"
                    :disabled="!inStock"
                    :class="{ disabledButton: !inStock }"
            >
                Add to cart
+           </button>
+           
+           <button
+                   v-on:click="reduceToCart"
+                   :disabled="!inStock"
+                   :class="{ disabledButton: !inStock }"
+           >
+               reduce to cart
            </button>
        
        </div>
@@ -53,7 +52,7 @@ Vue.component('product', {
             brand: 'Vue Mastery',
             selectedVariant: 0,
             altText: "A pair of socks",
-            details: '80% cotton  20% polyester  Gender-neutral',
+            details: ['80% cotton', '20% polyester', 'Gender-neutral'],
             variants: [
                 {
                     variantId: 2234,
@@ -68,12 +67,14 @@ Vue.component('product', {
                     variantQuantity: 0
                 }
             ],
-            cart: 0
         }
     },
     methods: {
         addToCart() {
-            this.cart += 1
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
+        },
+        reduceToCart() {
+            this.$emit('reduse-to-cart', this.variants[this.selectedVariant].variantId);
         },
         updateProduct(index) {
             this.selectedVariant = index;
@@ -96,23 +97,21 @@ Vue.component('product', {
             } else {
                 return 2.99
             }
-        },
-        detail() {
-            if (this.details) {
-                return this.details;
-            } else {
-                return "No info"
-            }
         }
-
-
     }
 })
 let app = new Vue({
     el: '#app',
     data: {
         premium: true,
-        productDetails: true
+        cart: []
+    },
+    methods: {
+        updateCart(id) {
+            this.cart.push(id);
+        },
+        reduceCart(id) {
+            this.cart.pop(id);
+        }
     }
 })
-

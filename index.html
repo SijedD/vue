@@ -13,9 +13,12 @@
 <body>
 
 <div id="app">
-    <product :premium="premium"></product>
-</div>
+    <div class="cart">
+        <p>Cart({{ cart.length }})</p>
+    </div>
+    <product :premium="premium" @add-to-cart="updateCart" @reduse-to-cart="reduceCart"></product>
 
+</div>
 
 </body>
 </html>
