@@ -1,5 +1,13 @@
 let app = new Vue({
     el: '#app',
+    methods: {
+        addToCart() {
+            this.cart += 1
+        },
+        reduceToCart(){
+            this.cart -=1
+        }
+    },
     data: {
         product: "Socks",
         image: "./assets/vmSocks-green-onWhite.jpg",
@@ -9,34 +17,19 @@ let app = new Vue({
         variants: [
             {
                 variantId: 2234,
-                variantColor: 'green'
+                variantColor: 'green',
+                variantImage: "./assets/vmSocks-green-onWhite.jpg",
             },
             {
                 variantId: 2235,
-                variantColor: 'blue'
+                variantColor: 'blue',
+                variantImage: "./assets/vmSocks-blue-onWhite.jpg",
             }
         ],
-        sizes: [
-            {
-                variantSize:'S'
-            },
-            {
-                variantSize:'M'
-            },
-            {
-                variantSize:'L'
-            },
-            {
-                variantSize:'XL'
-            },
-            {
-                variantSize:'XXL'
-            },
-            {
-                variantSize:'XXXL'
-            }
-            ]
-
+        cart: 0,
+        updateProduct(variantImage) {
+            this.image = variantImage
+        }
     }
 })
 
