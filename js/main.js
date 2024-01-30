@@ -95,7 +95,21 @@ Vue.component('product', {
                    :class="{ disabledButton: !inStock }"
            >
                Add to cart
-           </button>    
+           </button>
+           <button
+                   v-on:click="reduceToCartgreen"
+                   :disabled="!inStock"
+                   :class="{ disabledButton: !inStock }"
+           >
+               reduce to green
+           </button> 
+           <button
+                   v-on:click="reduceToCartblue"
+                   :disabled="!inStock"
+                   :class="{ disabledButton: !inStock }"
+           >
+               reduce to blue
+           </button>     
        </div>   
        <product-tabs :reviews="reviews" :shipping="shipping"></product-tabs>       
        </div>     
@@ -118,7 +132,7 @@ Vue.component('product', {
                     variantId: 2235,
                     variantColor: 'blue',
                     variantImage: "./assets/vmSocks-blue-onWhite.jpg",
-                    variantQuantity: 0
+                    variantQuantity: 10
                 }
             ],
             reviews: []
@@ -127,6 +141,12 @@ Vue.component('product', {
     methods: {
         addToCart() {
             this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId);
+        },
+        reduceToCartgreen() {
+            this.$emit('reduce-to-cart-green', this.variants[this.selectedVariant].variantId);
+        },
+        reduceToCartblue() {
+            this.$emit('reduce-to-cart-blue', this.variants[this.selectedVariant].variantId);
         },
         updateProduct(index) {
             this.selectedVariant = index;
@@ -246,7 +266,22 @@ let app = new Vue({
     methods: {
         updateCart(id) {
             this.cart.push(id);
+        },
+        reduceToCartgreen(id) {
+
+            for(let element in this.cart) {
+                if (this.cart[element] === 2234){
+                    this.cart.splice(element, 1)
+                }
+            }
+        },
+        reduceToCartblue() {
+
+            for(let element in this.cart) {
+                if (this.cart[element] === 2235){
+                    this.cart.splice(element, 1)
+                }
         }
-    }
-})
+    },
+}})
 
