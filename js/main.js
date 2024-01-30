@@ -6,6 +6,10 @@ Vue.component('product-tabs', {
             type: Array,
             required: false
         },
+        shipping:{
+            type: String,
+            required: true
+        }
     },
 
     template: `
@@ -48,20 +52,15 @@ Vue.component('product-tabs', {
             details: ['80% cotton', '20% polyester', 'Gender-neutral'],
         }
 
-    },
-    computed: {
-        shipping() {
-            if (this.premium) {
-                return "Free";
-            } else {
-                return 2.99
-            }
-        }
     }
 })
 
 Vue.component('product', {
-
+    mounted() {
+        eventBus.$on('review-submitted', productReview => {
+            this.reviews.push(productReview)
+        })
+    },
     props: {
         premium: {
             type: Boolean,
@@ -97,7 +96,8 @@ Vue.component('product', {
            >
                Add to cart
            </button>    
-       </div>          
+       </div>   
+       <product-tabs :reviews="reviews" :shipping="shipping"></product-tabs>       
        </div>     
  `,
     data() {
@@ -131,11 +131,6 @@ Vue.component('product', {
         updateProduct(index) {
             this.selectedVariant = index;
             console.log(index);
-        },
-        mounted: function () {
-            eventBus.$on('review-submitted', productReview => {
-                this.reviews.push(productReview)
-            })
         }
 
     },
